@@ -1,13 +1,67 @@
+<script lang="ts">
+  import { onMount } from 'svelte';
+  import initSqlJs from 'sql.js';
+
+  let db: any;
+  let query = '';
+  let result = '';
+
+  onMount(async () => {
+    const SQL = await initSqlJs({
+      locateFile: file => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.13.0/${file}`
+    });
+
+    db = new SQL.Database();
+
+    // Create a sample table and data
+    db.run(`
+      CREATE TABLE person (id INTEGER PRIMARY KEY, firstname TEXT, lastname TEXT);
+    `);
+    db.run(`
+      INSERT INTO person (firstname, lastname) VALUES
+      ('Matti', 'Meikäläinen'), ('Maija', 'Mehiläinen'), ('Liisa', 'Laitinen');
+    `);
+  });
+
+  function runQuery() {
+    try {
+      const res = db.exec(query);
+      if (res.length > 0) {
+        const columns = res[0].columns;
+        const values = res[0].values;
+        result = `
+          <table>
+            <thead><tr>${columns.map(c => `<th>${c}</th>`).join('')}</tr></thead>
+            <tbody>
+              ${values.map(row => `<tr>${row.map(cell => `<td>${cell}</td>`).join('')}</tr>`).join('')}
+            </tbody>
+          </table>
+        `;
+      } else {
+        result = '<p>No results</p>';
+      }
+    } catch (e) {
+      result = `<p style="color:red;">Error: ${e.message}</p>`;
+    }
+  }
+</script>
+
 <div class="task-container">
   <p><span>TASK 1:</span> Make a query which shows all data from all fields in person-table.</p>
 </div>
 <div class="container">
-  <div class="box textarea-container">
-    <textarea class="full-size-textarea" placeholder="Enter your query here..."></textarea>
-    <button class="execute-button">Run ▶</button>
+  <div class="panel">
+    <h3 class="panel-title">SQL Query</h3>
+    <div class="box textarea-container" id="left-panel">
+      <textarea bind:value={query} class="full-size-textarea" placeholder="Enter your query here..."></textarea>
+      <button class="execute-button" on:click={runQuery}>Run ▶</button>
+    </div>
   </div>
-  <div class="box" style="padding:1.5rem;box-sizing: border-box;">
-    Results
+  <div class="panel">
+    <h3 class="panel-title">Query Result</h3>
+    <div class="box" style="padding:1.5rem;box-sizing: border-box;">
+      {@html result}
+    </div>
   </div>
 </div>
 
@@ -21,7 +75,7 @@
 		font-family: Arial, sans-serif;
 		background-color: var(--background-dark);
 		color: var(--text-light);
-		font-family: monospace, "Courier New", Courier;
+		font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
 		padding: 2rem;
 	}
 	.task-container {
@@ -60,6 +114,7 @@
 		border: 1px solid #444;
 		border-radius: 2rem;
 		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+		font-family: monospace, "Courier New", Courier;
 	}
 	.full-size-textarea {
 		width: 100%;
@@ -108,6 +163,21 @@
 
 	.execute-button:hover {
 		background-color: #455A64;
+	}
+
+	.panel {
+	  display: flex;
+	  flex-direction: column;
+	  flex: 1;
+	}
+
+	.panel-title {
+	  font-size: 1.2rem;
+	  margin-bottom: 0.5rem;
+	  margin-left: 1.5rem;
+	  color: var(--text-light);
+	  font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+	  font-weight: 600;
 	}
 
   </style>
