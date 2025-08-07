@@ -1,0 +1,14 @@
+{
+	"name": "sql-exam",
+	"account_id": "66ad3bffb633c9f11051b49be71f7087",
+	"main": "./.cloudflare/worker.js",
+	"assets": {
+		"directory": "./build/",
+		"binding": "ASSETS"
+	},
+
+	"build": {
+		"command": "npm run build"
+	},
+	"compatibility_date": "2025-08-07"
+}
