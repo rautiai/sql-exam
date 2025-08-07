@@ -1,4 +1,5 @@
 <script lang="ts">
+
   import { onMount } from 'svelte';
   import initSqlJs from 'sql.js';
 
@@ -45,6 +46,10 @@
     }
   }
 </script>
+
+<svelte:head>
+  <title>Take an Exam - SQL Exam App</title>
+</svelte:head>
 
 <div class="task-container">
   <p><span>TASK 1:</span> Make a query which shows all data from all fields in person-table.</p>
