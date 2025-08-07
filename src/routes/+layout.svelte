@@ -1,7 +1,7 @@
 <style>
   	:global(:root) {
 	  --text-light: #fdfdff;
-	  --background-dark: #263238;
+	  --background-dark: #222;
 	  --background-light: #f5f5f5;
 	}
 	:global(body) {

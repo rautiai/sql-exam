@@ -74,7 +74,7 @@
 
 	.task-container {
 		width: 100%;
-		background-color: #455A64;
+		background-color: #444;
 		color: var(--text-light);
 		font-size: 1.25rem;
 		padding: 1rem 2rem;
@@ -141,12 +141,12 @@
 		right: 0.5rem;
 		width: auto;
 		height: 3rem;
-		padding: 0 1rem 0 1.25rem;
+		padding: 0 1.5rem 0 1.75rem;
 		border-radius: 2rem;
 		border: none;
-		background-color: #546E7A;
+		background-color: #333;
 		color: #fff;
-		font-size: 1.5rem;
+		font-size: 1.25rem;
 		display: flex;
 		align-items: center;
 		justify-content: center;
